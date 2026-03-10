@@ -3,8 +3,8 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --background: #000000;
-  --foreground: #ededed;
+  --background: #FFFFFF;
+  --foreground: #000000;
   --radius: 0.5rem;
 }
 
@@ -255,7 +255,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #0a0a0a;
+    --background: #ededed;
   }
 }
