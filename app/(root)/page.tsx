@@ -1,22 +1,31 @@
 import { Description } from "@radix-ui/react-toast";
 import SearchForm from "../../components/searchForm";
 import StartupCard from "../../components/StartupCard";
+import { client } from "@/sanity/lib/client";
+import { STARTUP_QUERY } from "@/sanity/lib/query";
+
+type StartupCardType = {
+  _id: string;
+  _createdAt: string;
+  views: number;
+  author: {
+    _id: string;
+    name: string;
+  };
+  title: string;
+  category: string;
+  description: string;
+  image: string;
+};
 
 export default async function Home({searchParams} : {
   searchParams : Promise<{ query?: string }>
 }) {
   const query  = (await searchParams).query;
 
-  const posts = [{
-    _createdAt :  new Date().toISOString(),
-    views : 55,
-    author : {_id : 1, name : "John Doe"},
-    _id : 1,
-    description : "This is a description of the post",
-    image : "https://source.unsplash.com/random/300x300/?technology",
-    title : "StartupVerse",
-    category : "Technology"
-  }]
+  const posts = await client.fetch(STARTUP_QUERY);
+  console.log(JSON.stringify(posts, null, 2));
+
 
   console.log("Hello from the Home page!");
   return (

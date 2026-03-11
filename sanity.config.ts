@@ -27,4 +27,4 @@ export default defineConfig({
     visionTool({defaultApiVersion: apiVersion}),
     markdownSchema(),
   ],
-})
+})  

@@ -5,6 +5,37 @@ import Link from 'next/link';
 import { Button } from './button';
 import Image from 'next/image';
 
+type StartupCardType = {
+  _id: string;
+  _createdAt: string;
+  views: number;
+  author: {
+    _id: string;
+    name: string;
+  };
+  title: string;
+  category: string;
+  description: string;
+  image: string;
+};
+
+const getValidImageUrl = (imageUrl: string | null | undefined): string => {
+  // Return placeholder if no URL provided
+  if (!imageUrl) return "https://placehold.co/400x164";
+  
+  // Check if it's a Google search result URL (not a direct image)
+  if (imageUrl.includes('google.com/imgres') || imageUrl.includes('google.com/search')) {
+    return "https://placehold.co/400x164";
+  }
+  
+  // Check if it's a valid HTTP/HTTPS URL
+  if (!imageUrl.startsWith('http')) {
+    return "https://placehold.co/400x164";
+  }
+  
+  return imageUrl;
+};
+
 const StartupCard = ({post} : {post : StartupCardType}) => {
 
     const {author : {_id : authorId, name}, views, _createdAt, title, category, description, _id, image} = post;
@@ -44,7 +75,15 @@ const StartupCard = ({post} : {post : StartupCardType}) => {
        <Link href={`/startup/${_id}`}>
         <p className="startup-card_desc">{description}</p>
 
-        <img src={image} alt="placeholder" className="startup-card_img" />
+        <Image 
+          src={getValidImageUrl(image)} 
+          alt={title}
+          width={400} 
+          height={164} 
+          className="startup-card_img"
+          placeholder="blur"
+          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+        />
       </Link>
 
       <div className="flex-between gap-3 mt-5">
